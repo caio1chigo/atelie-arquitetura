@@ -66,9 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateCounter() {
-      if (currentCount) {
-        currentCount.textContent = String(currentSlide + 1).padStart(2, "0");
-      }
+      if (!currentCount) return;
+
+      currentCount.textContent = String(currentSlide + 1).padStart(2, "0");
     }
 
     function showSlide(index) {
@@ -408,7 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (botaoTopo) {
     window.addEventListener("scroll", atualizarBotaoTopo, {
-      passive: true,
+      passive: true
     });
 
     atualizarBotaoTopo();
@@ -416,8 +416,39 @@ document.addEventListener("DOMContentLoaded", () => {
     botaoTopo.addEventListener("click", () => {
       window.scrollTo({
         top: 0,
-        behavior: reducedMotion ? "auto" : "smooth",
+        behavior: reducedMotion ? "auto" : "smooth"
       });
+    });
+  }
+
+  /* =========================
+     FADE-IN AO ROLAR
+  ========================= */
+
+  const revealElements = document.querySelectorAll(".reveal-on-scroll");
+
+  if (reducedMotion || !("IntersectionObserver" in window)) {
+    revealElements.forEach((element) => {
+      element.classList.add("is-revealed");
+    });
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -45px 0px"
+      }
+    );
+
+    revealElements.forEach((element) => {
+      revealObserver.observe(element);
     });
   }
 });
