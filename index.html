@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sariedine Arquitetura | Arquitetura residencial de alto padrão</title>
+  <meta
+    name="description"
+    content="Sariedine Arquitetura — ateliê de arquitetura autoral voltado ao nicho residencial de alto padrão."
+  >
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="is-loading">
+<div class="page-transition" aria-hidden="true">
+  <div class="page-transition-brand">
+    <span class="page-transition-name">SARIEDINE</span>
+    <span class="page-transition-subtitle">ARQUITETURA</span>
+  </div>
+</div>
+    
+  <!-- Cabeçalho -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand" aria-label="Sariedine Arquitetura — página inicial">
+        <span class="brand-name">SARIEDINE</span>
+        <span class="brand-subtitle">ARQUITETURA</span>
+      </a>
+      
+
+      <!-- Navegação desktop -->
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a class="nav-link is-active" href="index.html">Home</a>
+        <a class="nav-link" href="projetos-residenciais.html">Projetos residenciais</a>
+        <a class="nav-link" href="projetos-comerciais.html">Projetos comerciais</a>
+        <a class="nav-link" href="#biografia">Biografia</a>
+        <a class="nav-link" href="#contato">Contato</a>
+      </nav>
+
+      <!-- Botão menu mobile -->
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Menu mobile -->
+    <nav id="mobile-menu" class="mobile-menu" aria-label="Menu mobile">
+      <a class="mobile-nav-link is-active" href="index.html">Home</a>
+      <a class="mobile-nav-link" href="projetos-residenciais.html">Projetos residenciais</a>
+      <a class="mobile-nav-link" href="projetos-comerciais.html">Projetos comerciais</a>
+      <a class="mobile-nav-link" href="#biografia">Biografia</a>
+      <a class="mobile-nav-link" href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero: carrossel de projetos -->
+    <section class="hero" aria-label="Projetos em destaque">
+      <div class="hero-slider">
+        <!-- Slide 01 -->
+        <article class="hero-slide is-active">
+          <a   href="../projeto.html"class="hero-slide-link"
+  aria-label="Ver projeto Casa LS">
+            <img
+              src="src/casa-ls.png"
+              alt="Fachada contemporânea do projeto Casa LS"
+              fetchpriority="high"
+            >
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+              <p class="hero-eyebrow">Projeto residencial</p>
+              <h1>Casa LS</h1>
+              <p class="hero-location">Brasília, DF</p>
+              <span class="hero-cta">Conheça o projeto <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </article>
+
+        <!-- Slide 02 -->
+        <article class="hero-slide">
+          <a href="projeto.html" class="hero-slide-link" aria-label="Ver projeto Casa do Lago">
+            <img
+              src="src/casa-lago.jpg"
+              alt="Residência de alto padrão integrada à natureza"
+              loading="lazy"
+            >
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+              <p class="hero-eyebrow">Projeto residencial</p>
+              <h1>Casa do Lago</h1>
+              <p class="hero-location">Goiânia, GO</p>
+              <span class="hero-cta">Conheça o projeto <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </article>
+
+        <!-- Slide 03 -->
+        <article class="hero-slide">
+          <a href="projeto.html" class="hero-slide-link" aria-label="Ver projeto Casa do Cerrado">
+            <img
+              src="src/casa-cerrado.jpg"
+              alt="Residência contemporânea com madeira, pedra e jardins"
+              loading="lazy"
+            >
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+              <p class="hero-eyebrow">Projeto residencial</p>
+              <h1>Casa do Cerrado</h1>
+              <p class="hero-location">Brasília, DF</p>
+              <span class="hero-cta">Conheça o projeto <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </article>
+
+        <!-- Controles do carrossel -->
+        <div class="hero-controls">
+          <button class="hero-arrow hero-prev" type="button" aria-label="Projeto anterior">
+            <span aria-hidden="true">←</span>
+          </button>
+
+          <p class="hero-count" aria-live="polite">
+            <span class="hero-current">01</span>
+            <span class="hero-divider">/</span>
+            <span class="hero-total">03</span>
+          </p>
+
+          <button class="hero-arrow hero-next" type="button" aria-label="Próximo projeto">
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section> 
+
+    <!-- Sobre o ateliê / Biografia -->
+    <section id="biografia" class="about-studio">
+      <div class="container about-grid">
+        <div class="about-image-wrap">
+          <img
+            src="src/vic.jpg"
+            alt="Victor Sariedine, arquiteto e fundador da Sariedine Arquitetura"
+            loading="lazy"
+          >
+        </div>
+
+        <div class="about-content">
+          <p class="section-eyebrow">Sobre o ateliê</p>
+
+          <h2>Arquitetura autoral para viver com significado.</h2>
+
+          <p>
+           Sariedine Arquitetura é um ateliê de criação onde a alma brasileira 
+           encontra forma : cada projeto é tecido com tato e traduzido em espaços de alto valor e significado.
+          </p>
+           <p>
+            Inspirado pelo trabalho de escritórios e personalidades influentes, o arquiteto Victor traz uma abordagem singular e autoral para sua arquitetura.​
+           </p>
+          <p>
+            Com um estilo moderno e apreciação pela estética dos materiais, os projetos da Sariedine são exclusivos, singulares e atemporais. Eles exibem uma elegância distinta, típica de uma Arquitetura Autoral. 
+          </p>
+
+          <div class="architect-quote">
+            <p>
+             “Passados anos de experiência em Brasília e Goiânia, tive a oportunidade de trabalhar com arquitetos renomados, que influenciaram diretamente na construção do meu estilo, que por conta disso, é único.”
+            </p>
+
+            <span>Victor Sariedine — Arquiteto</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <!-- Prévia de projetos -->
+    <section class="projects-preview" aria-labelledby="projects-preview-title">
+      <div class="container">
+        <div class="projects-preview-heading">
+          <div>
+            <p class="section-eyebrow">Portfólio</p>
+            <h2 id="projects-preview-title">Projetos selecionados.</h2>
+          </div>
+        </div>
+
+        <!-- Projetos residenciais -->
+        <div class="project-category">
+          <div class="project-category-header">
+            <h3>Projetos residenciais</h3>
+            <a href="projetos-residenciais.html" class="category-link">
+              Ver todos <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="preview-grid preview-grid-residential">
+            <!-- Residencial 01 -->
+            <a href="projeto.html" class="preview-project">
+              <img
+                src="src/casa-ls.png"
+                alt="Casa LS, projeto residencial em Brasília"
+                loading="lazy"
+              >
+              <span class="preview-project-overlay">
+                <span class="preview-project-name">Casa LS</span>
+                <span class="preview-project-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+
+            <!-- Residencial 02 -->
+            <a href="projeto.html" class="preview-project">
+              <img
+                src="src/casa-lago.jpg"
+                alt="Casa do Lago, projeto residencial"
+                loading="lazy"
+              >
+              <span class="preview-project-overlay">
+                <span class="preview-project-name">Casa do Lago</span>
+                <span class="preview-project-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+
+            <!-- Residencial 03 -->
+            <a href="projeto.html" class="preview-project">
+              <img
+                src="src/casa-cerrado.jpg"
+                alt="Casa do Cerrado, projeto residencial"
+                loading="lazy"
+              >
+              <span class="preview-project-overlay">
+                <span class="preview-project-name">Casa do Cerrado</span>
+                <span class="preview-project-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+
+            <!-- Residencial 04 -->
+            <a href="projeto.html" class="preview-project">
+              <img
+                src="src/casa-ls.png"
+                alt="Casa Jardim, projeto residencial"
+                loading="lazy"
+              >
+              <span class="preview-project-overlay">
+                <span class="preview-project-name">Casa Jardim</span>
+                <span class="preview-project-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Projetos comerciais -->
+        <div class="project-category project-category-commercial">
+          <div class="project-category-header">
+            <h3>Projetos comerciais</h3>
+            <a href="projetos-comerciais.html" class="category-link">
+              Ver todos <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="preview-grid preview-grid-commercial">
+            <!-- Comercial 01 -->
+            <a href="projeto2.html" class="preview-project">
+              <img
+                src="src/casa-cerrado.jpg"
+                alt="Projeto comercial de loja"
+                loading="lazy"
+              >
+              <span class="preview-project-overlay">
+                <span class="preview-project-name">Nome do Projeto</span>
+                <span class="preview-project-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+
+            <!-- Comercial 02 -->
+            <a href="projeto2.html" class="preview-project">
+              <img
+                src="src/casa-lago.jpg"
+                alt="Projeto comercial de restaurante"
+                loading="lazy"
+              >
+              <span class="preview-project-overlay">
+                <span class="preview-project-name">Nome do Projeto</span>
+                <span class="preview-project-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+
+            <!-- Comercial 03 -->
+            <a href="projeto2.html" class="preview-project">
+              <img
+                src="src/casa-ls.png"
+                alt="Projeto comercial de escritório"
+                loading="lazy"
+              >
+              <span class="preview-project-overlay">
+                <span class="preview-project-name">Nome do Projeto</span>
+                <span class="preview-project-arrow" aria-hidden="true">↗</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="contact-section">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <p class="section-eyebrow">Vamos conversar</p>
+          <h2>Vamos criar um espaço à altura da sua história.</h2>
+          <p>
+            Entre em contato para conversar sobre seu projeto residencial,
+            comercial ou de interiores.
+          </p>
+        </div>
+
+        <div class="contact-actions">
+          <a class="contact-button" href="mailto:contato@sariedinearquitetura.com">
+            <span>E-mail</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          <a
+            class="contact-button"
+            href="https://wa.me/5562998179685?text=Olá%2C%20gostaria%20de%20conversar%20sobre%20um%20projeto."
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>WhatsApp</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <a href="index.html" class="footer-brand" aria-label="Sariedine Arquitetura — página inicial">
+        <span class="brand-name">SARIEDINE</span>
+        <span class="brand-subtitle">ARQUITETURA</span>
+      </a>
+
+      <div class="footer-column">
+        <p class="footer-label">Sariedine Arquitetura</p>
+        <p>Brasilidade em traços<br>e nuances.</p>
+      </div>
+
+      <div class="footer-column">
+        <p class="footer-label">Contato</p>
+        <a href="mailto:contato@sariedinearquitetura.com">contato@sariedinearquitetura.com</a>
+        <a
+          href="https://wa.me/5562998179685"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          +55 (62) 99817-9685
+        </a>
+      </div>
+
+      <div class="footer-column">
+        <p class="footer-label">Localização</p>
+        <p>
+          Goiânia, Goiás<br>
+          Brasil
+        </p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Navegação do rodapé">
+        <a href="index.html">Home</a>
+        <a href="projetos-residenciais.html">Projetos residenciais</a>
+        <a href="projetos-comerciais.html">Projetos comerciais</a>
+        <a href="#biografia">Biografia</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>© 2026 Sariedine Arquitetura. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+ <button
+    class="botao-topo"
+    id="botao-topo"
+    type="button"
+    aria-label="Voltar ao início"
+  >
+    <span aria-hidden="true">↑</span>
+  </button>
+  <script src="script.js"></script>
+</body>
+</html>
