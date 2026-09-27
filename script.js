@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const body = document.body;
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
   /* =========================
      MENU MOBILE
   ========================= */
@@ -50,153 +56,142 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentCount = document.querySelector(".hero-current");
   const totalCount = document.querySelector(".hero-total");
 
-  if (!slider || slides.length === 0) return;
+  if (slider && slides.length > 0) {
+    let currentSlide = 0;
+    let autoplayId;
+    const autoplayDelay = 6000;
 
-  let currentSlide = 0;
-  let autoplayId;
-  const autoplayDelay = 6000;
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
+    if (totalCount) {
+      totalCount.textContent = String(slides.length).padStart(2, "0");
+    }
 
-  if (totalCount) {
-    totalCount.textContent = String(slides.length).padStart(2, "0");
-  }
+    function updateCounter() {
+      if (currentCount) {
+        currentCount.textContent = String(currentSlide + 1).padStart(2, "0");
+      }
+    }
 
-  function updateCounter() {
-    if (!currentCount) return;
+    function showSlide(index) {
+      currentSlide = (index + slides.length) % slides.length;
 
-    currentCount.textContent = String(currentSlide + 1).padStart(2, "0");
-  }
+      slides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === currentSlide;
 
-  function showSlide(index) {
-    currentSlide = (index + slides.length) % slides.length;
+        slide.classList.toggle("is-active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+      });
 
-    slides.forEach((slide, slideIndex) => {
-      const isActive = slideIndex === currentSlide;
+      updateCounter();
+    }
 
-      slide.classList.toggle("is-active", isActive);
-      slide.setAttribute("aria-hidden", String(!isActive));
-    });
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+    }
 
-    updateCounter();
-  }
+    function previousSlide() {
+      showSlide(currentSlide - 1);
+    }
 
-  function nextSlide() {
-    showSlide(currentSlide + 1);
-  }
+    function stopAutoplay() {
+      window.clearInterval(autoplayId);
+    }
 
-  function previousSlide() {
-    showSlide(currentSlide - 1);
-  }
+    function startAutoplay() {
+      if (reducedMotion || slides.length < 2) return;
 
-  function stopAutoplay() {
-    window.clearInterval(autoplayId);
-  }
+      stopAutoplay();
+      autoplayId = window.setInterval(nextSlide, autoplayDelay);
+    }
 
-  function startAutoplay() {
-    if (reducedMotion || slides.length < 2) return;
-
-    stopAutoplay();
-    autoplayId = window.setInterval(nextSlide, autoplayDelay);
-  }
-
-  if (nextButton) {
-    nextButton.addEventListener("click", () => {
+    nextButton?.addEventListener("click", () => {
       nextSlide();
       startAutoplay();
     });
-  }
 
-  if (prevButton) {
-    prevButton.addEventListener("click", () => {
+    prevButton?.addEventListener("click", () => {
       previousSlide();
       startAutoplay();
     });
-  }
 
-  slider.addEventListener("mouseenter", stopAutoplay);
-  slider.addEventListener("mouseleave", startAutoplay);
+    slider.addEventListener("mouseenter", stopAutoplay);
+    slider.addEventListener("mouseleave", startAutoplay);
 
-  slider.addEventListener("focusin", stopAutoplay);
-  slider.addEventListener("focusout", (event) => {
-    if (!slider.contains(event.relatedTarget)) {
-      startAutoplay();
-    }
-  });
+    slider.addEventListener("focusin", stopAutoplay);
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stopAutoplay();
-    } else {
-      startAutoplay();
-    }
-  });
+    slider.addEventListener("focusout", (event) => {
+      if (!slider.contains(event.relatedTarget)) {
+        startAutoplay();
+      }
+    });
 
-  document.addEventListener("keydown", (event) => {
-    const activeElement = document.activeElement;
-    const userIsInsideSlider = slider.contains(activeElement);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopAutoplay();
+      } else {
+        startAutoplay();
+      }
+    });
 
-    if (!userIsInsideSlider) return;
+    document.addEventListener("keydown", (event) => {
+      if (!slider.contains(document.activeElement)) return;
 
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      nextSlide();
-      startAutoplay();
-    }
-
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      previousSlide();
-      startAutoplay();
-    }
-  });
-
-  let touchStartX = 0;
-  let touchEndX = 0;
-  const swipeThreshold = 45;
-
-  slider.addEventListener(
-    "touchstart",
-    (event) => {
-      touchStartX = event.changedTouches[0].screenX;
-      stopAutoplay();
-    },
-    { passive: true }
-  );
-
-  slider.addEventListener(
-    "touchend",
-    (event) => {
-      touchEndX = event.changedTouches[0].screenX;
-      const swipeDistance = touchEndX - touchStartX;
-
-      if (Math.abs(swipeDistance) > swipeThreshold) {
-        if (swipeDistance < 0) {
-          nextSlide();
-        } else {
-          previousSlide();
-        }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        nextSlide();
+        startAutoplay();
       }
 
-      startAutoplay();
-    },
-    { passive: true }
-  );
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        previousSlide();
+        startAutoplay();
+      }
+    });
 
-  showSlide(0);
-  startAutoplay();
-}); 
-document.addEventListener("DOMContentLoaded", () => {
+    let touchStartX = 0;
+    const swipeThreshold = 45;
+
+    slider.addEventListener(
+      "touchstart",
+      (event) => {
+        touchStartX = event.changedTouches[0].screenX;
+        stopAutoplay();
+      },
+      { passive: true }
+    );
+
+    slider.addEventListener(
+      "touchend",
+      (event) => {
+        const touchEndX = event.changedTouches[0].screenX;
+        const swipeDistance = touchEndX - touchStartX;
+
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+          if (swipeDistance < 0) {
+            nextSlide();
+          } else {
+            previousSlide();
+          }
+        }
+
+        startAutoplay();
+      },
+      { passive: true }
+    );
+
+    showSlide(0);
+    startAutoplay();
+  }
+
   /* =========================
-     GALERIA DE PÁGINA DE PROJETO
+     GALERIA DE PROJETO
   ========================= */
 
   const thumbnails = Array.from(document.querySelectorAll(".project-thumb"));
   const mainImage = document.querySelector(".project-main-image");
   const mainImageButton = document.querySelector(".project-main-image-button");
-  const previousButton = document.querySelector(".project-gallery-prev");
-  const nextButton = document.querySelector(".project-gallery-next");
+  const previousImageButton = document.querySelector(".project-gallery-prev");
+  const nextImageButton = document.querySelector(".project-gallery-next");
   const currentImageCount = document.querySelector(".project-current-image");
   const totalImageCount = document.querySelector(".project-total-images");
 
@@ -208,133 +203,127 @@ document.addEventListener("DOMContentLoaded", () => {
   const lightboxCurrent = document.querySelector(".lightbox-current");
   const lightboxTotal = document.querySelector(".lightbox-total");
 
-  if (
-    thumbnails.length === 0 ||
-    !mainImage ||
-    !mainImageButton ||
-    !lightbox ||
-    !lightboxImage
-  ) {
-    return;
-  }
+  const hasProjectGallery =
+    thumbnails.length > 0 &&
+    mainImage &&
+    mainImageButton &&
+    lightbox &&
+    lightboxImage;
 
-  let activeImage = 0;
+  if (hasProjectGallery) {
+    let activeImage = 0;
 
-  if (totalImageCount) {
-    totalImageCount.textContent = String(thumbnails.length).padStart(2, "0");
-  }
-
-  if (lightboxTotal) {
-    lightboxTotal.textContent = String(thumbnails.length).padStart(2, "0");
-  }
-
-  function updateProjectImage(index) {
-    activeImage = (index + thumbnails.length) % thumbnails.length;
-
-    const activeThumbnail = thumbnails[activeImage];
-    const imageSource = activeThumbnail.dataset.image;
-    const imageAlt = activeThumbnail.dataset.alt;
-
-    mainImage.src = imageSource;
-    mainImage.alt = imageAlt;
-
-    lightboxImage.src = imageSource;
-    lightboxImage.alt = imageAlt;
-
-    thumbnails.forEach((thumbnail, thumbnailIndex) => {
-      const isActive = thumbnailIndex === activeImage;
-
-      thumbnail.classList.toggle("is-active", isActive);
-      thumbnail.setAttribute("aria-selected", String(isActive));
-    });
-
-    const formattedPosition = String(activeImage + 1).padStart(2, "0");
-
-    if (currentImageCount) {
-      currentImageCount.textContent = formattedPosition;
+    if (totalImageCount) {
+      totalImageCount.textContent = String(thumbnails.length).padStart(2, "0");
     }
 
-    if (lightboxCurrent) {
-      lightboxCurrent.textContent = formattedPosition;
+    if (lightboxTotal) {
+      lightboxTotal.textContent = String(thumbnails.length).padStart(2, "0");
     }
-  }
 
-  function showNextImage() {
-    updateProjectImage(activeImage + 1);
-  }
+    function updateProjectImage(index) {
+      activeImage = (index + thumbnails.length) % thumbnails.length;
 
-  function showPreviousImage() {
-    updateProjectImage(activeImage - 1);
-  }
+      const activeThumbnail = thumbnails[activeImage];
+      const imageSource = activeThumbnail.dataset.image;
+      const imageAlt = activeThumbnail.dataset.alt || "";
 
-  thumbnails.forEach((thumbnail, index) => {
-    thumbnail.addEventListener("click", () => {
-      updateProjectImage(index);
+      mainImage.src = imageSource;
+      mainImage.alt = imageAlt;
+
+      lightboxImage.src = imageSource;
+      lightboxImage.alt = imageAlt;
+
+      thumbnails.forEach((thumbnail, thumbnailIndex) => {
+        const isActive = thumbnailIndex === activeImage;
+
+        thumbnail.classList.toggle("is-active", isActive);
+        thumbnail.setAttribute("aria-selected", String(isActive));
+      });
+
+      const formattedPosition = String(activeImage + 1).padStart(2, "0");
+
+      if (currentImageCount) {
+        currentImageCount.textContent = formattedPosition;
+      }
+
+      if (lightboxCurrent) {
+        lightboxCurrent.textContent = formattedPosition;
+      }
+    }
+
+    function showNextImage() {
+      updateProjectImage(activeImage + 1);
+    }
+
+    function showPreviousImage() {
+      updateProjectImage(activeImage - 1);
+    }
+
+    thumbnails.forEach((thumbnail, index) => {
+      thumbnail.addEventListener("click", () => {
+        updateProjectImage(index);
+      });
+
+      thumbnail.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          thumbnails[(index + 1) % thumbnails.length].focus();
+        }
+
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          thumbnails[
+            (index - 1 + thumbnails.length) % thumbnails.length
+          ].focus();
+        }
+      });
     });
 
-    thumbnail.addEventListener("keydown", (event) => {
+    previousImageButton?.addEventListener("click", showPreviousImage);
+    nextImageButton?.addEventListener("click", showNextImage);
+
+    mainImageButton.addEventListener("click", () => {
+      lightbox.showModal();
+    });
+
+    lightboxClose?.addEventListener("click", () => {
+      lightbox.close();
+    });
+
+    lightboxPrevious?.addEventListener("click", showPreviousImage);
+    lightboxNext?.addEventListener("click", showNextImage);
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        lightbox.close();
+      }
+    });
+
+    lightbox.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        thumbnails[(index + 1) % thumbnails.length].focus();
+        showNextImage();
       }
 
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        thumbnails[(index - 1 + thumbnails.length) % thumbnails.length].focus();
+        showPreviousImage();
       }
     });
-  });
 
-  previousButton?.addEventListener("click", showPreviousImage);
-  nextButton?.addEventListener("click", showNextImage);
+    updateProjectImage(0);
+  }
 
-  mainImageButton.addEventListener("click", () => {
-    lightbox.showModal();
-  });
-
-  lightboxClose?.addEventListener("click", () => {
-    lightbox.close();
-  });
-
-  lightboxPrevious?.addEventListener("click", showPreviousImage);
-  lightboxNext?.addEventListener("click", showNextImage);
-
-  lightbox.addEventListener("click", (event) => {
-    if (event.target === lightbox) {
-      lightbox.close();
-    }
-  });
-
-  lightbox.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      showNextImage();
-    }
-
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      showPreviousImage();
-    }
-  });
-
-  updateProjectImage(0);
-}); 
-document.addEventListener("DOMContentLoaded", () => {
   /* =========================
-     CORTINA INICIAL + FADE INTERNO
+     CORTINA INICIAL E FADES
   ========================= */
 
-  const body = document.body;
   const curtain = document.querySelector(".page-transition");
-  const storageKey = "sariedine-intro-seen";
-
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
+  const introStorageKey = "sariedine-intro-seen";
   let isNavigating = false;
 
-  function revealPage() {
+  function showPage() {
     body.classList.remove("is-leaving");
 
     requestAnimationFrame(() => {
@@ -342,29 +331,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const introAlreadySeen = sessionStorage.getItem(storageKey);
+  const introAlreadySeen = sessionStorage.getItem(introStorageKey);
 
-  /* A CORTINA É ATIVADA SOMENTE NA PRIMEIRA ABERTURA */
   if (!reducedMotion && !introAlreadySeen && curtain) {
     curtain.classList.add("is-active");
 
     window.setTimeout(() => {
       curtain.classList.remove("is-active");
-      sessionStorage.setItem(storageKey, "true");
-      revealPage();
+      sessionStorage.setItem(introStorageKey, "true");
+      showPage();
     }, 1850);
   } else {
-    /* Todas as páginas internas entram apenas em fade */
-    revealPage();
+    showPage();
   }
 
-  /* Protege o retorno pelo botão Voltar/Avançar do navegador */
   window.addEventListener("pageshow", () => {
+    isNavigating = false;
     body.classList.remove("is-leaving");
     body.classList.add("page-is-ready");
   });
 
-  /* Todos os links internos usam APENAS fade-out */
   document.querySelectorAll("a[href]").forEach((link) => {
     link.addEventListener("click", (event) => {
       const href = link.getAttribute("href");
@@ -398,40 +384,40 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       isNavigating = true;
 
-      /* Aqui não existe cortina: somente o fade-out */
       body.classList.remove("page-is-ready");
       body.classList.add("is-leaving");
 
       window.setTimeout(() => {
-        window.location.href = link.href;
+        window.location.href = href;
       }, 520);
     });
   });
-}); 
+
   /* =========================
      BOTÃO VOLTAR AO TOPO
   ========================= */
 
- const botaoTopo = document.getElementById("botao-topo");
+  const botaoTopo = document.getElementById("botao-topo");
 
-function atualizarBotaoTopo() {
-  if (!botaoTopo) return;
+  function atualizarBotaoTopo() {
+    if (!botaoTopo) return;
 
-  const deveMostrar = window.scrollY > 420;
-  botaoTopo.classList.toggle("visivel", deveMostrar);
-}
+    const deveMostrar = window.scrollY > 420;
+    botaoTopo.classList.toggle("visivel", deveMostrar);
+  }
 
-if (botaoTopo) {
-  window.addEventListener("scroll", atualizarBotaoTopo, {
-    passive: true,
-  });
-
-  atualizarBotaoTopo();
-
-  botaoTopo.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
+  if (botaoTopo) {
+    window.addEventListener("scroll", atualizarBotaoTopo, {
+      passive: true,
     });
-  });
-}
+
+    atualizarBotaoTopo();
+
+    botaoTopo.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: reducedMotion ? "auto" : "smooth",
+      });
+    });
+  }
+});
